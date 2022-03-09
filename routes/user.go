@@ -73,3 +73,59 @@ func GetUser(c *fiber.Ctx) error {
 	return c.Status(200).JSON(responseUser)
 
 }
+
+func UpdateUser(c *fiber.Ctx) error{
+	id, err := c.ParamsInt("id")
+
+	var user models.User
+
+	if err != nil{
+		c.Status(400).JSON("Please ensure that Id is an interger")
+	}
+	if err = FindUser(id, &user); err != nil {
+		c.Status(400).JSON(err.Error())
+		
+	}
+
+	type Updateuser struct{
+		FirstName string `json:"first_name"`
+		LastName  string `json:"last_name"`
+
+	}
+	var UpdataData Updateuser
+
+	if err := c.BodyParser(&UpdataData); err != nil {
+		return c.Status(500).JSON(err.Error())
+	}
+
+	user.FirstName = UpdataData.FirstName
+	user.LastName = UpdataData.LastName
+
+	database.Database.Db.Save(&user)
+
+	responseUser := CreateResponseUser(user)
+	return c.Status(200).JSON(responseUser)
+
+
+}
+
+func DeleteUser(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+
+	var user models.User
+
+	if err != nil{
+		c.Status(400).JSON("Please ensure that Id is an interger")
+	}
+	if err = FindUser(id, &user); err != nil {
+		c.Status(400).JSON(err.Error())
+		
+	}
+
+	if err = database.Database.Db.Delete(&user).Error; err != nil {
+		c.Status(400).JSON(err.Error())
+
+	}
+	return c.Status(200).SendString("User successfully deleted")
+
+}
