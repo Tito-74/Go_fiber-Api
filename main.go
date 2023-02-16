@@ -6,6 +6,8 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/arsmn/fiber-swagger/v2"
+	_ "github.com/arsmn/fiber-swagger/v2/example/docs"
 )
 
 func hello(c *fiber.Ctx) error {
@@ -13,7 +15,21 @@ func hello(c *fiber.Ctx) error {
 
 }
 
+// @title Fiber Example API
+// @version 1.0
+// @description This is a sample swagger for Fiber
+// @contact.name API Support
+// @contact.email youremail@provider.com
+// @host localhost:3000
+// @BasePath /
+
 func SetUpRoutes(app *fiber.App){
+	app.Get("/swagger/*", swagger.New(swagger.Config{ // custom
+		URL:         "/swagger/doc.json",
+		DeepLinking: false,
+	}))
+
+
 	app.Get("/", hello)
 	// users endpoint
 	app.Post("/api/users", routes.CreateUser)
