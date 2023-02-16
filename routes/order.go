@@ -36,6 +36,7 @@ func CreateOrder(c *fiber.Ctx) error{
 		return c.Status(400).JSON(err.Error())
 
 	}
+	 
 		
 	database.Database.Db.Create(&order)
 	responseUser := CreateResponseUser(user)

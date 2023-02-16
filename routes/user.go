@@ -57,6 +57,19 @@ func FindUser(id int, user *models.User) error {
 
 }
 
+// GetItem godoc
+// @Summary Get a user
+// @Description Get an user by its ID
+// @ID get-item-by-int
+// @Accept  json
+// @Produce  json
+// @Tags Item
+// @Param id path int true "Item ID"
+// @Success 200 {object} Item
+// @Failure 400 {object} HTTPError
+// @Failure 404 {object} HTTPError
+// @Failure 500 {object} HTTPError
+// @Router /api/users/{id} [get]
 func GetUser(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("id")
 

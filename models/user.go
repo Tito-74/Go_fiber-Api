@@ -7,10 +7,12 @@ type User struct{
 	CreatedAt time.Time
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
+	CreditCard CreditCard
+	// image
+	
+}
 
-
-	// Id uint `json:"id" gorm:"primaryKey"`
-	// CreatedAt time.Time
-	// FirstName string `json:"first_name"`
-	// LastName string `json:"last_name"`
+type CreditCard struct{
+	Number string
+  UserID uint
 }
